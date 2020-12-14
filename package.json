@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "npm run client:build",
-    "client:dev": "react-scripts start",
     "client:build": "react-scripts build",
-    "server:dev": "nodemon index.js",
+    "start": "node index.js",
     "db:build": "node ./db/init_db",
-    "start": "node index.js"
+    "client:dev": "react-scripts start",  
+    "server:dev": "nodemon index.js"     
   },
   "keywords": [],
   "author": "",

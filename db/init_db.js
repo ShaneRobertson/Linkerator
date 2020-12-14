@@ -1,7 +1,10 @@
 // code to build and initialize DB goes here
 const {
-  client
-  // other db methods 
+  client,
+  getAllLinks,
+  combineLinksAndTags,
+  getLinksByTagName
+ 
 } = require('./index');
 
 async function buildTables() {
@@ -11,33 +14,59 @@ async function buildTables() {
     // drop tables in correct order
     console.log('Dropping tables...')
     await client.query(`
+      DROP TABLE IF EXISTS link_tags;
+      DROP TABLE IF EXISTS tags;
       DROP TABLE IF EXISTS links;
+      
     `)
     console.log('Finished dropping the tables!')
     // build tables in correct order
     console.log("Creating tables...")
     await client.query(`
       CREATE TABLE links (
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(255) UNIQUE NOT NULL,
+        link_id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR(255),
-        tags VARCHAR(255) UNIQUE NOT NULL,
-        clicks INTEGER DEFAULT 0
+        clicks INTEGER DEFAULT 0,
+        date DATE DEFAULT CURRENT_DATE
       );
+
+      CREATE TABLE tags (
+        tag_id SERIAL PRIMARY KEY,
+        name VARCHAR(255) UNIQUE NOT NULL
+      );
+
+      CREATE TABLE link_tags (
+        link_id INTEGER NOT NULL REFERENCES links(link_id),
+        tag_id INTEGER NOT NULL REFERENCES tags(tag_id),
+        UNIQUE (link_id, tag_id)
+      );
+
     `)
-    console.log('Done creating tables!')
+    console.log('Finished creating tables!')
   } catch (error) {
     throw error;
   }
 }
 
+
 async function populateInitialData() {
   try {
-    // create useful starting data
+    console.log('Starting to create initial data')
+    await combineLinksAndTags('https://www.pandora.com/', 'Favorite channels', ['listen', 'relax', 'search'])
+    await combineLinksAndTags('https://www.google.com/', 'Great search Engine', ['search', 'research', 'learn'])
+    await combineLinksAndTags('https://10fastfingers.com/', 'Practice your typing skills', ['learn', 'typing', 'practice'])
+    console.log('Finished createing initial data!')
+
+    await getAllLinks()
+
+    await getLinksByTagName('relax')
   } catch (error) {
     throw error;
   }
 }
+
+
 
 buildTables()
   .then(populateInitialData)
