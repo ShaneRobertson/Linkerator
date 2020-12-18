@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import LinkForm from './LinkForm'
 
 
-const LinkModal = ({links, setLinks}) => {
+const LinkModal = ({links, setLinks, setTags}) => {
 
   const [show, setShow] = useState(false);
 
@@ -22,7 +22,7 @@ const LinkModal = ({links, setLinks}) => {
           <Modal.Title>Add a new link!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <LinkForm handleClose={handleClose} links={links} setLinks={setLinks} />
+          <LinkForm handleClose={handleClose} links={links} setLinks={setLinks} setTags={setTags} />
         </Modal.Body>
 
       </Modal>

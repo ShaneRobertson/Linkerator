@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {updateLink} from "../api";
+import {getTags, updateLink} from "../api";
 
-const AddTagForm = ({ handleClose, link_id, setLinks }) => {
+const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
 console.log('link_id in AddTagForm: ', link_id)
   const [editTagList, setEditTagList] = useState([]);
 //get the data back from res.send(data) then setLinks to the data. It should be all the links with the updated tags
@@ -15,6 +15,7 @@ console.log('link_id in AddTagForm: ', link_id)
         try {
         const updatedLinks =  await updateLink('', '', editTagList.split(' '), link_id)
         setLinks(updatedLinks)
+        setTags(await getTags())
           handleClose();
         } catch (error) {
           console.log("From the Link submission Form", error);
@@ -39,7 +40,7 @@ console.log('link_id in AddTagForm: ', link_id)
         Close
       </Button>
       <Button variant="primary" type="submit">
-        Create
+        Add New Tag
       </Button>
     </Form>
   );

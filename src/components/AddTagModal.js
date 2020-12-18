@@ -4,8 +4,8 @@ import Button from "react-bootstrap/Button";
 import AddTagForm from './AddTagForm'
 
 
-const AddTagModal = ({links, setLinks, link_id}) => {
-console.log('link_id in AddTagModal: ', link_id)
+const AddTagModal = ({links, setLinks, link_id, setTags}) => {
+//console.log('link_id in AddTagModal: ', link_id)
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -19,10 +19,10 @@ console.log('link_id in AddTagModal: ', link_id)
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Update Link</Modal.Title>
+          <Modal.Title>More Tag Please!</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <AddTagForm handleClose={handleClose} link_id={link_id} setLinks={setLinks} />
+          <AddTagForm handleClose={handleClose} link_id={link_id} setLinks={setLinks} setTags={setTags} />
         </Modal.Body>
 
       </Modal>

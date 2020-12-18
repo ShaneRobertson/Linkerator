@@ -9,6 +9,7 @@ import {
 
 const App = () => {
   const [links, setLinks] = useState([]);
+  const [tags, setTags] = useState([]);
 
   useEffect(() => {
     getLinks()
@@ -23,8 +24,8 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <TagList setLinks={setLinks}/>
-      <DisplayLinks links={links} setLinks={setLinks} />
+      <TagList setLinks={setLinks} setTags={setTags} tags={tags}/>
+      <DisplayLinks links={links} setLinks={setLinks} setTags={setTags}/>
     </div>
   );
 }

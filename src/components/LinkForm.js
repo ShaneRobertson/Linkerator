@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {createNewLink} from "../api";
+import {createNewLink, getTags} from "../api";
 
-const LinkForm = ({ handleClose, links, setLinks }) => {
+const LinkForm = ({ handleClose, links, setLinks, setTags }) => {
   const [linkName, setLinkName] = useState("");
   const [linkDescription, setLinkDescription] = useState("");
   const [tagList, setTagList] = useState([])
@@ -17,8 +17,9 @@ const LinkForm = ({ handleClose, links, setLinks }) => {
        const data = await createNewLink(linkName, linkDescription, tagList.split(' '))
       console.log('this is the the new link/data: ', data)
         let newLinks = [...links]
-        newLinks.push(data)
+        newLinks.unshift(data)
         setLinks(newLinks)
+        setTags(await getTags())
         handleClose()
         
       } catch (error){
