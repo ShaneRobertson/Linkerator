@@ -1,0 +1,18 @@
+.cardContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+}
+
+#tagBar {
+display: flex;
+overflow-x: auto;
+margin: .5rem;
+}
+
+#tagButton {
+    margin: 0 .5rem;
+}

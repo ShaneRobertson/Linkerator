@@ -8,18 +8,21 @@
     "client:build": "react-scripts build",
     "start": "node index.js",
     "db:build": "node ./db/init_db",
-    "client:dev": "react-scripts start",  
-    "server:dev": "nodemon index.js"     
+    "client:dev": "react-scripts start",
+    "server:dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2",
+    "bootstrap": "^4.5.3",
     "express": "^4.17.1",
+    "moment": "^2.29.1",
     "morgan": "^1.10.0",
     "pg": "^8.2.1",
     "react": "^16.13.1",
+    "react-bootstrap": "^1.4.0",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1"

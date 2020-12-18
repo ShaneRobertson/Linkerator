@@ -1,26 +1,30 @@
 import React, { useState, useEffect } from 'react';
-
+import "bootstrap/dist/css/bootstrap.min.css";
+import Header from './Header'
+import DisplayLinks from './DisplayLinks'
+import TagList from './TagList'
 import {
-  getSomething
+  getLinks,
 } from '../api';
 
 const App = () => {
-  const [message, setMessage] = useState('');
+  const [links, setLinks] = useState([]);
 
   useEffect(() => {
-    getSomething()
-      .then(response => {
-        setMessage(response.message);
+    getLinks()
+      .then(response => {      
+        setLinks(response);
       })
       .catch(error => {
-        setMessage(error.message);
+        console.log(error);
       });
-  });
+  }, []);
 
   return (
     <div className="App">
-      <h1>Hello, World!</h1>
-      <h2>{ message }</h2>
+      <Header />
+      <TagList setLinks={setLinks}/>
+      <DisplayLinks links={links} setLinks={setLinks} />
     </div>
   );
 }

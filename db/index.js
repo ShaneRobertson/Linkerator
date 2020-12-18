@@ -21,6 +21,7 @@ async function getAllLinks() {
     `);
    // console.log("This is the tags from the Join table", tags);
 
+   //checks to see if the link_id in the returned links matches the link_id on the tags (joined tags on link_tags table)
     links.forEach((link) => {
       let tagsX = [];
       for (let i = 0; i < tags.length; i++) {
@@ -37,6 +38,19 @@ async function getAllLinks() {
   }
 }
 
+
+async function getAllTags() {
+  try {
+    const {rows} = await client.query(`
+      SELECT * FROM 
+      tags;
+    `)
+   // console.log('this is the tags in the database: ', rows)
+    return rows
+  } catch (error) {
+    throw error
+  }
+}
 //----CREATEING THE LINK-----
 async function createLink(name, description) {
   try {
@@ -62,9 +76,11 @@ async function createLink(name, description) {
 //----CREATEING THE TAGS----
 
 async function createTagsAndLink_tagsRecord(tagList, linkId) {
+  console.log('whats the tagList in createTagsAndLink_TagsRecords? ', tagList, 'and the link_id? ', linkId)
   if (!tagList.length) {
     return;
   }
+
   //create the paramaterized query string for inserting tags into the tags table
   const insertValues = tagList.map((_, index) => `$${index + 1}`).join("), (");
 
@@ -110,7 +126,7 @@ async function combineLinksAndTags(linkName, linkDescription, tags) {
 
     link.tags = tags;
 
-    console.log("finished creating links/tags/LinkTags Record. ");
+    console.log("finished creating links/tags/LinkTags Record. ")
     return link;
   } catch (error) {
     throw error;
@@ -123,13 +139,13 @@ async function combineLinksAndTags(linkName, linkDescription, tags) {
 async function getLinksByTagName(tagName) {
   try {
     const links = await getAllLinks()
-    console.log('getLinksByTagName links - should have array of tags', links)
+   // console.log('getLinksByTagName links - should have array of tags', links)
 
     let filteredLinks = links.filter((link) => {
       return link.tags.includes(tagName)
     })
 
-    console.log('this is the filteredLinks from getLinksByTagName - should include pandora and google: ', filteredLinks)
+    //console.log('this is the filteredLinks from getLinksByTagName: ', filteredLinks)
     return filteredLinks
   } catch (error) {
     throw error
@@ -137,9 +153,53 @@ async function getLinksByTagName(tagName) {
 }
 
 
+
+//passed from the front end : comment, tags, and/or count
+//
+// create a functin that updates the number of times a link has been clicked
+// takes a link_id, query involves an UPDATE WHERE link_id=${link_id} needs a fields object and a join method(look at juicebox)
+
+async function getUpdatedLink(id, fields = {}){
+const {tags} = fields
+delete fields.tags
+console.log('do I still have an array of tags?', tags)
+  const setString = Object.keys(fields).map((key, index) => 
+  `${key}=$${index + 1}`
+).join(', ')
+//console.log('heres the setstring : ', setString)
+
+
+  try {
+    if(setString.length > 0) {
+      const {rows} = await client.query(`
+      UPDATE links
+      SET ${setString}
+      WHERE link_id=${id}
+      RETURNING *;
+    `, Object.values(fields))
+    // console.log('updated Link after the Update query', rows) 
+    // return rows
+    }
+
+  } catch (error) {
+    console.log('getUpdatedLink error: ', error)
+  }
+
+  // create the tags entry and the link_tags entry
+  if(tags) {
+    await createTagsAndLink_tagsRecord(tags, id)
+  }
+  const allUpdatedLinks = await getAllLinks()
+  return allUpdatedLinks
+}
+
+//MIGHT need to write query that gets the tags off of the tags tabel through the link_tags table to 
+
 module.exports = {
   client,
   getAllLinks,
+  getAllTags,
   combineLinksAndTags,
-  getLinksByTagName
+  getLinksByTagName,
+  getUpdatedLink
 };
