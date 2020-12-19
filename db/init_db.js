@@ -53,9 +53,9 @@ async function buildTables() {
 async function populateInitialData() {
   try {
     console.log('Starting to create initial data')
-    await combineLinksAndTags('https://www.pandora.com/', 'Favorite channels', ['listen', 'relax', 'search'])
-    await combineLinksAndTags('https://www.google.com/', 'Great search Engine', ['search', 'research', 'learn'])
-    await combineLinksAndTags('https://10fastfingers.com/', 'Practice your typing skills', ['learn', 'typing', 'practice'])
+    await combineLinksAndTags('www.pandora.com/', 'Favorite channels', ['listen', 'relax', 'search'])
+    await combineLinksAndTags('www.google.com/', 'Great search Engine', ['search', 'research', 'learn'])
+    await combineLinksAndTags('10fastfingers.com/', 'Practice your typing skills', ['learn', 'typing', 'practice'])
     console.log('Finished createing initial data!')
 
     await getAllLinks()
