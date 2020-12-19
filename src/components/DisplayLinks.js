@@ -10,9 +10,9 @@ import { updateLink, getLinksByTag } from "../api";
 // need a function that takes a link_id and gets the link by that Id, then updates the clicks column in the links table by one every time its clicked on the front end. Then I can call getAllLinks()
 // create the route,
 
-const DisplayLinks = ({ links, setLinks, setTags }) => {
-  // console.log("links inside of DisplayLink", links);
-  //const [clickCount, setClickCount] = useState(false)
+const DisplayLinks = ({ links, setLinks, setTags, searchString }) => {
+
+
 
   return (
     <div className="cardContainer">

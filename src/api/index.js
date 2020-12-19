@@ -55,7 +55,7 @@ export async function getLinksByTag(tagName){
 }
 
 export async function updateLink(linkName, linkDescription, linkTags, link_id, clickCount){
-console.log('linkName: ', linkName, ' linkDescription: ', linkDescription, ' linkTags:  ', linkTags, ' link_id: ', link_id, 'clickCount: ', clickCount)
+//console.log('linkName: ', linkName, ' linkDescription: ', linkDescription, ' linkTags:  ', linkTags, ' link_id: ', link_id, 'clickCount: ', clickCount)
 
   try {
     const {data} = await axios.patch(`/api/links/${link_id}`, {
@@ -64,7 +64,7 @@ console.log('linkName: ', linkName, ' linkDescription: ', linkDescription, ' lin
       tags: linkTags,
       clicks: clickCount 
     })
-    console.log('result from update Link: ', data)
+  //  console.log('result from update Link: ', data)
     return data
   } catch (error) {
     console.log('updateLink error', error)

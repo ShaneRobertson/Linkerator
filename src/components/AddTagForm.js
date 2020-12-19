@@ -4,7 +4,7 @@ import Button from "react-bootstrap/Button";
 import {getTags, updateLink} from "../api";
 
 const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
-console.log('link_id in AddTagForm: ', link_id)
+//console.log('link_id in AddTagForm: ', link_id)
   const [editTagList, setEditTagList] = useState([]);
 //get the data back from res.send(data) then setLinks to the data. It should be all the links with the updated tags
   return (
