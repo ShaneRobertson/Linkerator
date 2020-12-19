@@ -2,7 +2,7 @@ import React from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import moment from "moment";
-import LinkModal from "./LinkModal";
+
 import EditModal from "./EditModal";
 import AddTagModal from "./AddTagModal";
 import { updateLink, getLinksByTag } from "../api";
@@ -15,16 +15,16 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
 
 
   return (
-    <div className="cardContainer">
-       <Button onClick={() => {
+    <div id="cardContainer">
+       {/* <Button onClick={() => {
          let sortedLinks = [...links]
 
          sortedLinks = sortedLinks.sort((a, b) => b.clicks - a.clicks)
             setLinks(sortedLinks)
           //  console.log('the links in the OnClick: ', links)
             
-       }}>Sort by shares &#x21C5;</Button>
-      <LinkModal links={links} setLinks={setLinks} setTags={setTags} />
+       }} id='leftAside'>Sort by shares &#x21C5;</Button> */}
+     {/* <LinkModal links={links} setLinks={setLinks} setTags={setTags} /> */}
       
       {links.map((link) => {
         const { name, description, clicks, link_id, date, tags } = link;

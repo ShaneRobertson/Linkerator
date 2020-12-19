@@ -15,7 +15,7 @@ const Search = ({ setSearchLinks, links }) => {
   }
  
   return (
-    <div>
+    <div id='search'>
       <label>Looking for something in particular? </label>
       <input
       id='searchInput'

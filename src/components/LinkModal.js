@@ -13,7 +13,7 @@ const LinkModal = ({links, setLinks, setTags}) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
+      <Button id='leftAside' variant="primary" onClick={handleShow}>
       &#43; Link
       </Button>
 

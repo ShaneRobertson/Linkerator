@@ -4,6 +4,8 @@ import Header from './Header'
 import DisplayLinks from './DisplayLinks'
 import TagList from './TagList'
 import Search from './Search'
+import SortLinks from './SortLinks'
+import LinkModal from "./LinkModal";
 import {
   getLinks,
 } from '../api';
@@ -28,8 +30,13 @@ const App = () => {
   return (
     <div className="App">
       <Header />
-      <Search searchString={searchString} setSearchString={setSearchString} setSearchLinks={setSearchLinks} links={links}/>
+     
       <TagList setLinks={setLinks} setTags={setTags} tags={tags}/>
+      <div id='utility'>
+      <Search searchString={searchString} setSearchString={setSearchString} setSearchLinks={setSearchLinks} links={links}/>
+      <SortLinks setLinks={setLinks} links={links}/>
+      <LinkModal links={links} setLinks={setLinks} setTags={setTags} />
+      </div>
      {searchLinks.length ? <DisplayLinks links={searchLinks} setLinks={setLinks} setTags={setTags} searchString={searchString} /> : <DisplayLinks links={links} setLinks={setLinks} setTags={setTags} searchString={searchString}/>}
     </div>
   );
