@@ -10,17 +10,26 @@ import { updateLink, getLinksByTag } from "../api";
 // need a function that takes a link_id and gets the link by that Id, then updates the clicks column in the links table by one every time its clicked on the front end. Then I can call getAllLinks()
 // create the route,
 
-const DisplayLinks = ({ links, setLinks, setTags, searchString }) => {
+const DisplayLinks = ({ links, setLinks, setTags }) => {
 
 
 
   return (
     <div className="cardContainer">
-      <LinkModal links={links} setLinks={setLinks} setTags={setTags} />
+       <Button onClick={() => {
+         let sortedLinks = [...links]
 
+         sortedLinks = sortedLinks.sort((a, b) => b.clicks - a.clicks)
+            setLinks(sortedLinks)
+          //  console.log('the links in the OnClick: ', links)
+            
+       }}>Sort by shares &#x21C5;</Button>
+      <LinkModal links={links} setLinks={setLinks} setTags={setTags} />
+      
       {links.map((link) => {
         const { name, description, clicks, link_id, date, tags } = link;
         // console.log('link_id in DisplayLinks: ', link_id)
+        console.log("the links: ", links)
         return (
           <Card key={link_id} className="text-center">
             <Card.Body>
