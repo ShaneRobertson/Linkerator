@@ -13,7 +13,7 @@ async function getAllLinks() {
       SELECT * FROM links;
     `);
 
-   // console.log("All the links from getAllLinks:  ", links);
+   console.log("All the links from getAllLinks:  ", links);
 
     const { rows: tags } = await client.query(`
     SELECT * FROM link_tags
@@ -22,16 +22,27 @@ async function getAllLinks() {
    // console.log("This is the tags from the Join table", tags);
 
    //checks to see if the link_id in the returned links matches the link_id on the tags (joined tags on link_tags table)
-    links.forEach((link) => {
+    // links.forEach((link) => {
+    //   let tagsX = [];
+    //   for (let i = 0; i < tags.length; i++) {
+    //     if (link.link_id === tags[i].link_id) {
+    //       tagsX.push(tags[i].name);
+    //     }
+    //     link.tags = tagsX;
+    //   }
+    // });
+
+    links.map((link) => {
       let tagsX = [];
-      for (let i = 0; i < tags.length; i++) {
-        if (link.link_id === tags[i].link_id) {
-          tagsX.push(tags[i].name);
+      for (let tag of tags) {
+        if (link.link_id === tag.link_id) {
+          tagsX.push(tag.name);
         }
         link.tags = tagsX;
       }
     });
 
+    links.sort((a, b) => a.link_id - b.link_id)
     return links;
   } catch (error) {
     throw error;
@@ -162,20 +173,18 @@ async function getLinksByTagName(tagName) {
 async function getUpdatedLink(id, fields = {}){
 const {tags} = fields
 delete fields.tags
-console.log('do I still have an array of tags?', tags)
+//console.log('do I still have an array of tags?', tags)
   const setString = Object.keys(fields).map((key, index) => 
   `${key}=$${index + 1}`
 ).join(', ')
 //console.log('heres the setstring : ', setString)
 
-
   try {
     if(setString.length > 0) {
-      const {rows} = await client.query(`
+      await client.query(`
       UPDATE links
       SET ${setString}
-      WHERE link_id=${id}
-      RETURNING *;
+      WHERE link_id=${id};
     `, Object.values(fields))
     // console.log('updated Link after the Update query', rows) 
     // return rows
@@ -193,7 +202,20 @@ console.log('do I still have an array of tags?', tags)
   return allUpdatedLinks
 }
 
-//MIGHT need to write query that gets the tags off of the tags tabel through the link_tags table to 
+
+async function updateCount(link_id) {
+  console.log('link_id in updateCount: ', link_id)
+  try {
+    await client.query(`
+      UPDATE links
+      SET clicks=clicks + 1
+      WHERE link_id=$1
+    `, [link_id])
+  } catch (error) {
+    console.log('updateCount error is: ', error)
+  }
+}
+
 
 module.exports = {
   client,
@@ -201,5 +223,6 @@ module.exports = {
   getAllTags,
   combineLinksAndTags,
   getLinksByTagName,
-  getUpdatedLink
+  getUpdatedLink,
+  updateCount
 };

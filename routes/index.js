@@ -6,7 +6,8 @@ const {
   getAllTags,
   combineLinksAndTags,
   getLinksByTagName,
-  getUpdatedLink
+  getUpdatedLink,
+  updateCount
 } = require('../db')
 //makes requests to the database
 apiRouter.get("/", (req, res, next) => {
@@ -73,7 +74,7 @@ apiRouter.post('/links', async (req, res, next) => {
 //need a route that takes a Link_id from the req.params
 apiRouter.patch('/links/:link_id', async (req, res, next) => {
   const {link_id} = req.params
-  const { description, name, tags} = req.body
+  const { description, name, tags, clicks} = req.body
   console.log('link_id in router: ', link_id)
   const updateFields = {}
 
@@ -89,12 +90,17 @@ apiRouter.patch('/links/:link_id', async (req, res, next) => {
     updateFields.tags = tags
   }
 
+  if(clicks){
+    console.log('am I here?')
+    await updateCount(link_id)
+  }
+
   try {
 
 // console.log('updatefields object: ', updateFields)
-const updatedLinks = await getUpdatedLink(link_id, updateFields) //need to create this 
+const updatedLinks = await getUpdatedLink(link_id, updateFields) 
 
-console.log('here is the updated link: ', updatedLinks)
+console.log('here is the updated links: ', updatedLinks)
 res.send(updatedLinks)
 
   } catch (error) {
