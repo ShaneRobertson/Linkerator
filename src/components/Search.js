@@ -1,7 +1,7 @@
 import React from "react";
 
 const Search = ({ setSearchLinks, links }) => {
-  console.log("links inside of Search", links);
+ // console.log("links inside of Search", links);
 
   const filterDisplayLinks = () => {
     //setSearchString(event.target.value);
@@ -16,9 +16,10 @@ const Search = ({ setSearchLinks, links }) => {
  
   return (
     <div id='search'>
-      <label>Looking for something in particular? </label>
+      <p className='text-center'>Looking for something in particular?</p>
       <input
-      id='searchInput'
+        id='searchInput'
+
         type="text"
         placeholder="start your search..."
         autoComplete='off'

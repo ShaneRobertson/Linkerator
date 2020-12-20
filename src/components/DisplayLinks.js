@@ -6,42 +6,35 @@ import moment from "moment";
 import EditModal from "./EditModal";
 import AddTagModal from "./AddTagModal";
 import { updateLink, getLinksByTag } from "../api";
+import validator from 'validator';
 
 // need a function that takes a link_id and gets the link by that Id, then updates the clicks column in the links table by one every time its clicked on the front end. Then I can call getAllLinks()
 // create the route,
 
 const DisplayLinks = ({ links, setLinks, setTags }) => {
-
+ const urls = 'https://'
+ const url = 'http://'
 
 
   return (
     <div id="cardContainer">
-       {/* <Button onClick={() => {
-         let sortedLinks = [...links]
 
-         sortedLinks = sortedLinks.sort((a, b) => b.clicks - a.clicks)
-            setLinks(sortedLinks)
-          //  console.log('the links in the OnClick: ', links)
-            
-       }} id='leftAside'>Sort by shares &#x21C5;</Button> */}
-     {/* <LinkModal links={links} setLinks={setLinks} setTags={setTags} /> */}
-      
       {links.map((link) => {
-        const { name, description, clicks, link_id, date, tags } = link;
-        // console.log('link_id in DisplayLinks: ', link_id)
-        console.log("the links: ", links)
+        const { description, clicks, link_id, date, tags } = link;
+        let {name} = link
+if(!name.includes(urls || url )) { 
+  name = urls + name
+}
         return (
-          <Card key={link_id} className="text-center">
+          <Card key={link_id} className="text-center linkCards"  border="info">
             <Card.Body>
-              <Card.Title>
+              <Card.Title >
                 <a
                   rel="noopener noreferrer"
-                  href={"#"} /*href={name}  target='_blank' */
+                   href={name}  target='_blank'
                 >
                   <Button
                     onClick={async () => {
-                      // setClickCount(true)
-                      //  console.log('this is clickCount in my handeler: ', clickCount)
                       const updatedLinks = await updateLink(
                         "",
                         "",
@@ -55,7 +48,9 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
                     {name}
                   </Button>
                 </a>
+                <EditModal link_id={link_id} setLinks={setLinks} />
               </Card.Title>
+              
               <span className="text-muted">
                 {" "}
                 {clicks} shares since {moment(date).format("MMMM Do YYYY")}
@@ -65,6 +60,7 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
                 {tags.map((tag) => {
                   return (
                     <Button
+                    size='sm'
                       key={tag}
                       id="tagButton"
                       onClick={async () => {
@@ -81,7 +77,7 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
                   setTags={setTags}
                 />
               </Card.Text>
-              <EditModal link_id={link_id} setLinks={setLinks} />
+              
             </Card.Body>
           </Card>
         );

@@ -50,7 +50,7 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
         Close
       </Button>
       <Button variant="primary" type="submit">
-        Create
+        Update
       </Button>
     </Form>
   );

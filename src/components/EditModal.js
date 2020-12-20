@@ -2,9 +2,11 @@ import React, {useState}from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from "react-bootstrap/Button";
 import EditForm from './EditForm'
+import {PencilSquare} from 'react-bootstrap-icons'
 
 
-const EditModal = ({links, setLinks, link_id}) => {
+
+const EditModal = ({ setLinks, link_id}) => {
 
   const [show, setShow] = useState(false);
 
@@ -13,8 +15,8 @@ const EditModal = ({links, setLinks, link_id}) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-      Update
+      <Button className='text-right' id='editBtn' variant="secondary"  onClick={handleShow}>
+      <PencilSquare/>
       </Button>
 
       <Modal show={show} onHide={handleClose}>

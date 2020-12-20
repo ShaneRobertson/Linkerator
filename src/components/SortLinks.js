@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 const SortLinks = ({ links, setLinks }) => {
   return (
     <Button
+    
       onClick={() => {
         let sortedLinks = [...links];
 

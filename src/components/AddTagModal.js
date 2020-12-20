@@ -13,8 +13,8 @@ const AddTagModal = ({links, setLinks, link_id, setTags}) => {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-      &#x2B; Tag
+      <Button variant="secondary" size='sm' onClick={handleShow}>
+      &#x2B;
       </Button>
 
       <Modal show={show} onHide={handleClose}>

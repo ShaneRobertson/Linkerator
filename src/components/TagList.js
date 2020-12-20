@@ -19,13 +19,16 @@ const TagList = ({ setLinks, setTags, tags }) => {
   return (
     <div id="tagBar">
       <Button
+      className='text-nowrap'
         id="tagButton"
+        variant="danger"
         onClick={async () => {
           setLinks(await getLinks());
         }}
       >
         All
       </Button>
+      {"   "}
       {tags.map((tag) => {
         const { tag_id, name } = tag;
         return (
