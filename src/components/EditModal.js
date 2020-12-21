@@ -6,7 +6,6 @@ import { PencilSquare } from "react-bootstrap-icons";
 
 const EditModal = ({ setLinks, link_id, handleClose, handleShow, show }) => {
 
-
   return (
     <>
       <Button
