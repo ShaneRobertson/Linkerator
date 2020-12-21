@@ -3,6 +3,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { updateLink } from "../api";
 
+
 const EditForm = ({ handleClose, link_id, setLinks }) => {
   const [editLinkName, setEditLinkName] = useState("");
   const [editLinkDescription, setEditLinkDescription] = useState("");
@@ -49,12 +50,23 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
         />
       </Form.Group>
 
-      <Button variant="secondary" onClick={handleClose}>
+      <Button id='closeBtn' variant="secondary" onClick={handleClose}>
         Close
       </Button>
       <Button variant="primary" type="submit">
         Update
       </Button>
+      {/* <Button id='deleteBtn' variant="danger" onClick={async () => {
+        console.log('step1: link_id in front end: ', link_id)
+        await deleteLink(link_id)
+        console.log("MADE IT PAST DELETELINK")
+        const activeLinks = await getLinks()
+        console.log(activeLinks)
+        
+        handleClose()
+      }}>
+      <Trash  />
+      </Button> */}
     </Form>
   );
 };

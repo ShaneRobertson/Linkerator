@@ -7,7 +7,8 @@ const client = new Client(DB_URL);
 async function getAllLinks() {
   try {
     const { rows: links } = await client.query(`
-      SELECT * FROM links;
+      SELECT * FROM links
+      WHERE is_active=true;
     `);
 
     const { rows: tags } = await client.query(`
@@ -190,6 +191,21 @@ async function updateCount(link_id) {
   }
 }
 
+async function deleteLink(link_id) {
+  try {
+    const {rows} = await client.query(`
+      UPDATE links
+      SET is_active=false
+      WHERE link_id=$1
+      RETURNING*;
+  `, [link_id])
+  console.log('step4: rows after the db query. is_active false for link_id 1?: ', rows)
+  return rows
+  } catch(error) {
+    throw error
+  }
+}
+
 module.exports = {
   client,
   getAllLinks,
@@ -198,4 +214,5 @@ module.exports = {
   getLinksByTagName,
   getUpdatedLink,
   updateCount,
+  deleteLink
 };

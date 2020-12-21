@@ -39,7 +39,7 @@ const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
         />
       </Form.Group>
 
-      <Button variant="secondary" onClick={handleClose}>
+      <Button id='closeBtn' variant="secondary" onClick={handleClose}>
         Close
       </Button>
       <Button variant="primary" type="submit">

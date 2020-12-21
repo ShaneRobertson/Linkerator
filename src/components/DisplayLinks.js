@@ -1,14 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import moment from "moment";
 
 import EditModal from "./EditModal";
 import AddTagModal from "./AddTagModal";
-import { updateLink, getLinksByTag } from "../api";
+import { updateLink, getLinksByTag, getLinks, deleteLink } from "../api";
+import { Trash } from "react-bootstrap-icons";
 import validator from "validator";
 
 const DisplayLinks = ({ links, setLinks, setTags }) => {
+  const [show, setShow] = useState(false);
+
+  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false);
+
   return (
     <div id="cardContainer">
       {links.map((link) => {
@@ -38,7 +44,22 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
                     {name}
                   </Button>
                 </a>
-                <EditModal link_id={link_id} setLinks={setLinks} />
+                <EditModal link_id={link_id} setLinks={setLinks} handleClose={handleClose} handleShow={handleShow} show={show}/>
+                <Button
+                  id="deleteBtn"
+                  variant="danger"
+                  onClick={async () => {
+                    console.log("step1: link_id in front end: ", link_id);
+                    await deleteLink(link_id);
+                    console.log("MADE IT PAST DELETELINK");
+                    const activeLinks = await getLinks();
+                    console.log(activeLinks);
+                    setLinks(activeLinks)
+                    handleClose();
+                  }}
+                >
+                  <Trash />
+                </Button>
               </Card.Title>
 
               <span className="text-muted">

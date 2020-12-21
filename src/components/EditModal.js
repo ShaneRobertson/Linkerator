@@ -1,14 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import EditForm from "./EditForm";
 import { PencilSquare } from "react-bootstrap-icons";
 
-const EditModal = ({ setLinks, link_id }) => {
-  const [show, setShow] = useState(false);
+const EditModal = ({ setLinks, link_id, handleClose, handleShow, show }) => {
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   return (
     <>

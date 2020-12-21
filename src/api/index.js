@@ -65,3 +65,15 @@ export async function updateLink(
     console.log("updateLink error", error);
   }
 }
+
+
+export async function deleteLink(link_id){
+  try {
+    console.log('step2: link_id in api: ', link_id)
+    const {data} = await axios.delete(`/api/links/${link_id}`)
+    console.log('data in api: ', data)
+  
+  } catch (error) {
+    console.log('deleteLink error in the api: ', error)
+  }
+}

@@ -7,6 +7,7 @@ const {
   getLinksByTagName,
   getUpdatedLink,
   updateCount,
+  deleteLink
 } = require("../db");
 
 apiRouter.get("/", (req, res, next) => {
@@ -86,5 +87,15 @@ apiRouter.patch("/links/:link_id", async (req, res, next) => {
     console.log(error);
   }
 });
+
+
+apiRouter.delete('/links/:link_id', async (req, res, next) =>{
+  const {link_id} = req.params
+  console.log("step3: this is the link_id in the req.params in the router: ", link_id)
+  const deletedLink = await deleteLink(link_id)
+  console.log("step5: this is the rows (deletedLink in router) from the db query: ", deletedLink)
+  res.send(deletedLink)
+
+})
 
 module.exports = apiRouter;

@@ -28,7 +28,8 @@ async function buildTables() {
         name VARCHAR(255) UNIQUE NOT NULL,
         description VARCHAR(255),
         clicks INTEGER DEFAULT 0,
-        date DATE DEFAULT CURRENT_DATE
+        date DATE DEFAULT CURRENT_DATE,
+        is_active BOOLEAN DEFAULT true
       );
 
       CREATE TABLE tags (
