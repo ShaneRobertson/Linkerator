@@ -26,7 +26,7 @@ const TagList = ({ setLinks, setTags, tags }) => {
           setLinks(await getLinks());
         }}
       >
-        All
+        All Links
       </Button>
       {"   "}
       {tags.map((tag) => {

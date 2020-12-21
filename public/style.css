@@ -1,15 +1,14 @@
 body {
   height: 100vh;
 }
+
 .App {
   overflow-y: hidden;
   display: grid;
   grid-template-columns: 30vw, 70vw;
   grid-template-rows: 20vh, 10vh, 70vh;
-  /* align-items: center; */
   justify-items: center;
   height: 100vh;
-  /* width: 100vw; */
 }
 
 .header {
@@ -20,6 +19,7 @@ body {
   grid-row: 1 / 2;
   background-color: rgb(252, 185, 0);
 }
+
 
 #tagBar {
   display: grid;
@@ -35,8 +35,13 @@ body {
   align-items: center;
 }
 
+
+h5 {
+    color: white;
+    font-family: 'Texturina', serif;  
+}
+
 #search {
-  background-color: red;
   display: grid; 
   justify-content: stretch;
   margin: 0 1rem;
@@ -45,16 +50,21 @@ body {
 
 #cardContainer {
   width: 70vw;
-  height: 100%;
+  height: 80vh;
   grid-column: 2 / 3;
   grid-row: 3 / 4;
   overflow-y: auto;
+  background-color: lightgrey;
+  
 }
-
-
 
 .linkCards {
     margin: 1rem .5rem;  
+}
+
+.linkCards:hover {
+    background-color: orange;
+    transition: .4s;
 }
 
 #editBtn {
@@ -62,16 +72,19 @@ body {
 }
 
 #utility {
+  background-color: firebrick;
   display: grid;
-  height: 70vh;
+  height: 100%;
   width: 30vw;
   align-content: space-around;
   padding: 0 1rem;
 }
 
 #tagButton {
-  margin: 0 0.2rem;
+  margin: .2rem .2rem;
 }
+
+
 
 
 /* SCROLL BARS */

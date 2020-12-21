@@ -16,14 +16,13 @@ const Search = ({ setSearchLinks, links }) => {
  
   return (
     <div id='search'>
-      <p className='text-center'>Looking for something in particular?</p>
+      <h5 className='text-center'>Looking for something in particular?</h5>
       <input
         id='searchInput'
 
         type="text"
         placeholder="start your search..."
         autoComplete='off'
-        //value={searchString}
         onChange={filterDisplayLinks}
       ></input>
     </div>

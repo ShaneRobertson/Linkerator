@@ -8,13 +8,10 @@ import AddTagModal from "./AddTagModal";
 import { updateLink, getLinksByTag } from "../api";
 import validator from 'validator';
 
-// need a function that takes a link_id and gets the link by that Id, then updates the clicks column in the links table by one every time its clicked on the front end. Then I can call getAllLinks()
-// create the route,
+
+
 
 const DisplayLinks = ({ links, setLinks, setTags }) => {
- const urls = 'https://'
- const url = 'http://'
-
 
   return (
     <div id="cardContainer">
@@ -22,8 +19,9 @@ const DisplayLinks = ({ links, setLinks, setTags }) => {
       {links.map((link) => {
         const { description, clicks, link_id, date, tags } = link;
         let {name} = link
-if(!name.includes(urls || url )) { 
-  name = urls + name
+
+if(!validator.isURL(name, {require_protocol: true})) { 
+  name = `http://${name}`  
 }
         return (
           <Card key={link_id} className="text-center linkCards"  border="info">
@@ -56,7 +54,13 @@ if(!name.includes(urls || url )) {
                 {clicks} shares since {moment(date).format("MMMM Do YYYY")}
               </span>
               <Card.Text>
-                {description} -{" "}
+            
+                {description} -{" "}  <AddTagModal
+                  link_id={link_id}
+                  setLinks={setLinks}
+                  setTags={setTags}
+                />
+          
                 {tags.map((tag) => {
                   return (
                     <Button
@@ -71,11 +75,7 @@ if(!name.includes(urls || url )) {
                     </Button>
                   );
                 })}{" "}
-                <AddTagModal
-                  link_id={link_id}
-                  setLinks={setLinks}
-                  setTags={setTags}
-                />
+               
               </Card.Text>
               
             </Card.Body>
