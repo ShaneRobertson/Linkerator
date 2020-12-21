@@ -9,12 +9,8 @@ const SortLinks = ({
   searchLinks,
   setSearchLinks,
 }) => {
-  console.log("links: ", links);
-  console.log("searchLinks: ", searchLinks);
   return (
     <Button
-      //*note - when there is input in the search then searchLinks is showing NOT links. so we are sorting a state that is not being displayed@@
-
       onClick={() => {
         if (searchLinks.length) {
           let sortedLinks = [...searchLinks];

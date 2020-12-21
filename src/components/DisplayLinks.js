@@ -6,31 +6,23 @@ import moment from "moment";
 import EditModal from "./EditModal";
 import AddTagModal from "./AddTagModal";
 import { updateLink, getLinksByTag } from "../api";
-import validator from 'validator';
-
-
-
+import validator from "validator";
 
 const DisplayLinks = ({ links, setLinks, setTags }) => {
-
   return (
     <div id="cardContainer">
-
       {links.map((link) => {
         const { description, clicks, link_id, date, tags } = link;
-        let {name} = link
+        let { name } = link;
 
-if(!validator.isURL(name, {require_protocol: true})) { 
-  name = `http://${name}`  
-}
+        if (!validator.isURL(name, { require_protocol: true })) {
+          name = `http://${name}`;
+        }
         return (
-          <Card key={link_id} className="text-center linkCards"  border="info">
+          <Card key={link_id} className="text-center linkCards" border="info">
             <Card.Body>
-              <Card.Title >
-                <a
-                  rel="noopener noreferrer"
-                   href={name}  target='_blank'
-                >
+              <Card.Title>
+                <a rel="noopener noreferrer" href={name} target="_blank">
                   <Button
                     onClick={async () => {
                       const updatedLinks = await updateLink(
@@ -48,23 +40,22 @@ if(!validator.isURL(name, {require_protocol: true})) {
                 </a>
                 <EditModal link_id={link_id} setLinks={setLinks} />
               </Card.Title>
-              
+
               <span className="text-muted">
                 {" "}
                 {clicks} shares since {moment(date).format("MMMM Do YYYY")}
               </span>
               <Card.Text>
-            
-                {description} -{" "}  <AddTagModal
+                {description} -{" "}
+                <AddTagModal
                   link_id={link_id}
                   setLinks={setLinks}
                   setTags={setTags}
                 />
-          
                 {tags.map((tag) => {
                   return (
                     <Button
-                    size='sm'
+                      size="sm"
                       key={tag}
                       id="tagButton"
                       onClick={async () => {
@@ -75,9 +66,7 @@ if(!validator.isURL(name, {require_protocol: true})) {
                     </Button>
                   );
                 })}{" "}
-               
               </Card.Text>
-              
             </Card.Body>
           </Card>
         );

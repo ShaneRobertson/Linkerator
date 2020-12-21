@@ -1,21 +1,25 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {getTags, updateLink} from "../api";
+import { getTags, updateLink } from "../api";
 
 const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
-//console.log('link_id in AddTagForm: ', link_id)
   const [editTagList, setEditTagList] = useState([]);
-//get the data back from res.send(data) then setLinks to the data. It should be all the links with the updated tags
+
   return (
     <Form
       onSubmit={async (event) => {
         event.preventDefault();
-        //console.log('link_id maybe: ', link_id)
+
         try {
-        const updatedLinks =  await updateLink('', '', editTagList.split(' '), link_id)
-        setLinks(updatedLinks)
-        setTags(await getTags())
+          const updatedLinks = await updateLink(
+            "",
+            "",
+            editTagList.split(" "),
+            link_id
+          );
+          setLinks(updatedLinks);
+          setTags(await getTags());
           handleClose();
         } catch (error) {
           console.log("From the Link submission Form", error);
@@ -30,8 +34,7 @@ const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
           value={editTagList}
           onChange={(event) => {
             if (event.target.value.length > 0)
-            setEditTagList(event.target.value);
-            
+              setEditTagList(event.target.value);
           }}
         />
       </Form.Group>
@@ -46,4 +49,4 @@ const AddTagForm = ({ handleClose, link_id, setLinks, setTags }) => {
   );
 };
 
-export default AddTagForm
+export default AddTagForm;

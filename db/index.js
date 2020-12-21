@@ -1,36 +1,22 @@
-// Connect to DB
 const { Client } = require("pg");
 const DB_NAME = "postgres:ganon3422@localhost:5432/linkerator";
 const DB_URL = process.env.DATABASE_URL || `postgres://${DB_NAME}`;
 const client = new Client(DB_URL);
 
-
-//getting all the links and returning them with the appropriate tags
+//---GETS ALL THE LINKS
 async function getAllLinks() {
-  // get all the links
   try {
     const { rows: links } = await client.query(`
       SELECT * FROM links;
     `);
 
-   console.log("All the links from getAllLinks:  ", links);
-
     const { rows: tags } = await client.query(`
     SELECT * FROM link_tags
     NATURAL JOIN tags;
     `);
-   // console.log("This is the tags from the Join table", tags);
 
-   //checks to see if the link_id in the returned links matches the link_id on the tags (joined tags on link_tags table)
-    // links.forEach((link) => {
-    //   let tagsX = [];
-    //   for (let i = 0; i < tags.length; i++) {
-    //     if (link.link_id === tags[i].link_id) {
-    //       tagsX.push(tags[i].name);
-    //     }
-    //     link.tags = tagsX;
-    //   }
-    // });
+    //checks to see if the link_id in the returned links
+    //matches the link_id on the tags (joined tags on link_tags table)
 
     links.map((link) => {
       let tagsX = [];
@@ -42,26 +28,27 @@ async function getAllLinks() {
       }
     });
 
-    links.sort((a, b) => a.link_id - b.link_id)
+    links.sort((a, b) => a.link_id - b.link_id);
     return links;
   } catch (error) {
     throw error;
   }
 }
 
-
+//--GETS ALL THE TAGS--
 async function getAllTags() {
   try {
-    const {rows} = await client.query(`
+    const { rows } = await client.query(`
       SELECT * FROM 
       tags;
-    `)
-   // console.log('this is the tags in the database: ', rows)
-    return rows
+    `);
+
+    return rows;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
+
 //----CREATEING THE LINK-----
 async function createLink(name, description) {
   try {
@@ -76,7 +63,6 @@ async function createLink(name, description) {
     `,
       [name, description]
     );
-    //console.log("This is the link object: ", link)
 
     return link;
   } catch (error) {
@@ -84,10 +70,8 @@ async function createLink(name, description) {
   }
 }
 
-//----CREATEING THE TAGS----
-
+//----CREATEING THE TAGS AND AN ENTRY IN THE link_tags TABLE----
 async function createTagsAndLink_tagsRecord(tagList, linkId) {
-  console.log('whats the tagList in createTagsAndLink_TagsRecords? ', tagList, 'and the link_id? ', linkId)
   if (!tagList.length) {
     return;
   }
@@ -126,6 +110,7 @@ async function createTagsAndLink_tagsRecord(tagList, linkId) {
   }
 }
 
+//---COMBINES THE LINKS AND THE TAGS
 async function combineLinksAndTags(linkName, linkDescription, tags) {
   try {
     const link = await createLink(linkName, linkDescription);
@@ -137,85 +122,73 @@ async function combineLinksAndTags(linkName, linkDescription, tags) {
 
     link.tags = tags;
 
-    console.log("finished creating links/tags/LinkTags Record. ")
     return link;
   } catch (error) {
     throw error;
   }
 }
 
-
-//create a function that accepts a tagName as a parameter(string)
-// get all the links and their tags
+//---GETS ALL THE LINKS BY THEIR TAGNAME
 async function getLinksByTagName(tagName) {
   try {
-    const links = await getAllLinks()
-   // console.log('getLinksByTagName links - should have array of tags', links)
+    const links = await getAllLinks();
 
     let filteredLinks = links.filter((link) => {
-      return link.tags.includes(tagName)
-    })
+      return link.tags.includes(tagName);
+    });
 
-    //console.log('this is the filteredLinks from getLinksByTagName: ', filteredLinks)
-    return filteredLinks
+    return filteredLinks;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 
+//---GETS THE UPDATEDLINKS
+async function getUpdatedLink(id, fields = {}) {
+  const { tags } = fields;
+  delete fields.tags;
 
-
-//passed from the front end : comment, tags, and/or count
-//
-// create a functin that updates the number of times a link has been clicked
-// takes a link_id, query involves an UPDATE WHERE link_id=${link_id} needs a fields object and a join method(look at juicebox)
-
-async function getUpdatedLink(id, fields = {}){
-const {tags} = fields
-delete fields.tags
-//console.log('do I still have an array of tags?', tags)
-  const setString = Object.keys(fields).map((key, index) => 
-  `${key}=$${index + 1}`
-).join(', ')
-//console.log('heres the setstring : ', setString)
+  const setString = Object.keys(fields)
+    .map((key, index) => `${key}=$${index + 1}`)
+    .join(", ");
 
   try {
-    if(setString.length > 0) {
-      await client.query(`
+    if (setString.length > 0) {
+      await client.query(
+        `
       UPDATE links
       SET ${setString}
       WHERE link_id=${id};
-    `, Object.values(fields))
-    // console.log('updated Link after the Update query', rows) 
-    // return rows
+    `,
+        Object.values(fields)
+      );
     }
-
   } catch (error) {
-    console.log('getUpdatedLink error: ', error)
+    console.log("getUpdatedLink error: ", error);
   }
 
   // create the tags entry and the link_tags entry
-  if(tags) {
-    await createTagsAndLink_tagsRecord(tags, id)
+  if (tags) {
+    await createTagsAndLink_tagsRecord(tags, id);
   }
-  const allUpdatedLinks = await getAllLinks()
-  return allUpdatedLinks
+  const allUpdatedLinks = await getAllLinks();
+  return allUpdatedLinks;
 }
 
-
 async function updateCount(link_id) {
-  console.log('link_id in updateCount: ', link_id)
   try {
-    await client.query(`
+    await client.query(
+      `
       UPDATE links
       SET clicks=clicks + 1
       WHERE link_id=$1
-    `, [link_id])
+    `,
+      [link_id]
+    );
   } catch (error) {
-    console.log('updateCount error is: ', error)
+    console.log("updateCount error is: ", error);
   }
 }
-
 
 module.exports = {
   client,
@@ -224,5 +197,5 @@ module.exports = {
   combineLinksAndTags,
   getLinksByTagName,
   getUpdatedLink,
-  updateCount
+  updateCount,
 };

@@ -1,21 +1,24 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import {updateLink} from "../api";
+import { updateLink } from "../api";
 
 const EditForm = ({ handleClose, link_id, setLinks }) => {
   const [editLinkName, setEditLinkName] = useState("");
   const [editLinkDescription, setEditLinkDescription] = useState("");
-  
 
   return (
     <Form
       onSubmit={async (event) => {
         event.preventDefault();
-        //console.log('link_id maybe: ', link_id)
         try {
-         const updatedLinks = await updateLink(editLinkName, editLinkDescription, '', link_id)
-         setLinks(updatedLinks)
+          const updatedLinks = await updateLink(
+            editLinkName,
+            editLinkDescription,
+            "",
+            link_id
+          );
+          setLinks(updatedLinks);
           handleClose();
         } catch (error) {
           console.log("From the Link submission Form", error);
@@ -56,4 +59,4 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
   );
 };
 
-export default EditForm
+export default EditForm;

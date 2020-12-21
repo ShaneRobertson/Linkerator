@@ -3,8 +3,6 @@ import { getTags, getLinksByTag, getLinks } from "../api";
 import Button from "react-bootstrap/Button";
 
 const TagList = ({ setLinks, setTags, tags }) => {
-  
-
   useEffect(() => {
     getTags()
       .then((response) => {
@@ -15,11 +13,10 @@ const TagList = ({ setLinks, setTags, tags }) => {
       });
   }, []);
 
-  //need to pass in getlinksbytagname and then setLinks to the result
   return (
     <div id="tagBar">
       <Button
-      className='text-nowrap'
+        className="text-nowrap"
         id="tagButton"
         variant="danger"
         onClick={async () => {
