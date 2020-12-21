@@ -13,14 +13,25 @@ const LinkForm = ({ handleClose, links, setLinks, setTags }) => {
     onSubmit={async (event) => {
      event.preventDefault()
      console.log('default prevented')
-      try{       
-       const data = await createNewLink(linkName, linkDescription, tagList.split(' '))
-      console.log('this is the the new link/data: ', data)
-        let newLinks = [...links]
-        newLinks.unshift(data)
-        setLinks(newLinks)
-        setTags(await getTags())
-        handleClose()
+      try{     
+        if(tagList.length) {
+          const data = await createNewLink(linkName, linkDescription, tagList.split(' '))
+          console.log('this is the the new link/data: ', data)
+            let newLinks = [...links]
+            newLinks.unshift(data)
+            setLinks(newLinks)
+            setTags(await getTags())
+            handleClose()
+        }  else {
+          const data = await createNewLink(linkName, linkDescription)
+          console.log('this is the the new link/data: ', data)
+            let newLinks = [...links]
+            newLinks.unshift(data)
+            setLinks(newLinks)
+            setTags(await getTags())
+            handleClose()
+        }
+      
         
       } catch (error){
         console.log('From the Link submission Form', error)
@@ -53,8 +64,13 @@ const LinkForm = ({ handleClose, links, setLinks, setTags }) => {
 
       <Form.Group>
         <Form.Label>Tags</Form.Label>
-        <Form.Control type="text" placeholder="ex. learn listen vibe"  value={tagList} onChange={(event) => {       
-        setTagList(event.target.value)       
+        <Form.Control type="text" placeholder="ex. learn listen vibe"  value={tagList} onChange={(event) => {   
+          console.log('the Taglist in addLinkForm')
+          if(tagList.length)   {
+        setTagList(event.target.value)    
+      } else {
+        setTagList('')
+      }
         }}/>
       </Form.Group>
 
