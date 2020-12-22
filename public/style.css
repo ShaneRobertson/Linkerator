@@ -51,7 +51,7 @@ input {
 
 #cardContainer {
   width: 70vw;
-  height: 82vh;
+  height: 80vh;
   grid-column: 2 / 3;
   grid-row: 3 / 4;
   overflow-y: auto;
