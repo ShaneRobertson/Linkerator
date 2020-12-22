@@ -97,6 +97,12 @@ input {
   right: 1.5rem;
 }
 
+#noLinksMessage {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
 /* SCROLL BARS */
 #tagBar::-webkit-scrollbar {
   height: 10px;

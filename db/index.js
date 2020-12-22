@@ -137,8 +137,12 @@ async function getLinksByTagName(tagName) {
     let filteredLinks = links.filter((link) => {
       return link.tags.includes(tagName);
     });
+    if (filteredLinks.length) {
+      return filteredLinks
+    } else {
+      return {message: "Doesn't seem to be any links associated with that tag."}
+    }
 
-    return filteredLinks;
   } catch (error) {
     throw error;
   }
@@ -199,7 +203,7 @@ async function deleteLink(link_id) {
       WHERE link_id=$1
       RETURNING*;
   `, [link_id])
-  console.log('step4: rows after the db query. is_active false for link_id 1?: ', rows)
+
   return rows
   } catch(error) {
     throw error

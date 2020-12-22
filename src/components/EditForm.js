@@ -5,6 +5,7 @@ import { updateLink } from "../api";
 
 
 const EditForm = ({ handleClose, link_id, setLinks }) => {
+  
   const [editLinkName, setEditLinkName] = useState("");
   const [editLinkDescription, setEditLinkDescription] = useState("");
 
@@ -13,6 +14,7 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
       onSubmit={async (event) => {
         event.preventDefault();
         try {
+          console.log("what is the link_id", link_id)
           const updatedLinks = await updateLink(
             editLinkName,
             editLinkDescription,
@@ -56,17 +58,6 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
       <Button variant="primary" type="submit">
         Update
       </Button>
-      {/* <Button id='deleteBtn' variant="danger" onClick={async () => {
-        console.log('step1: link_id in front end: ', link_id)
-        await deleteLink(link_id)
-        console.log("MADE IT PAST DELETELINK")
-        const activeLinks = await getLinks()
-        console.log(activeLinks)
-        
-        handleClose()
-      }}>
-      <Trash  />
-      </Button> */}
     </Form>
   );
 };

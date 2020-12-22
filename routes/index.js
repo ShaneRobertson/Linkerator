@@ -32,7 +32,11 @@ apiRouter.get("/tags/:tagName/links", async (req, res, next) => {
 
   try {
     const links = await getLinksByTagName(tagName);
-    res.send(links);
+    if(links.length){
+      res.send(links)
+    } else {
+      res.send(links)
+    }
   } catch (error) {
     throw error;
   }
@@ -91,9 +95,7 @@ apiRouter.patch("/links/:link_id", async (req, res, next) => {
 
 apiRouter.delete('/links/:link_id', async (req, res, next) =>{
   const {link_id} = req.params
-  console.log("step3: this is the link_id in the req.params in the router: ", link_id)
   const deletedLink = await deleteLink(link_id)
-  console.log("step5: this is the rows (deletedLink in router) from the db query: ", deletedLink)
   res.send(deletedLink)
 
 })
