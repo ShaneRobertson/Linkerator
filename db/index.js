@@ -1,5 +1,8 @@
+require("dotenv").config();
+
 const { Client } = require("pg");
-const DB_NAME = "postgres:ganon3422@localhost:5432/linkerator";
+const {DB_USER, DB_PASS} = process.env
+const DB_NAME = `${DB_USER}:${DB_PASS}@localhost:5432/linkerator`;
 const DB_URL = process.env.DATABASE_URL || `postgres://${DB_NAME}`;
 const client = new Client(DB_URL);
 
