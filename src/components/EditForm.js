@@ -14,7 +14,6 @@ const EditForm = ({ handleClose, link_id, setLinks }) => {
       onSubmit={async (event) => {
         event.preventDefault();
         try {
-          console.log("what is the link_id", link_id)
           const updatedLinks = await updateLink(
             editLinkName,
             editLinkDescription,
